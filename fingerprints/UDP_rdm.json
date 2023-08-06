@@ -1,0 +1,63 @@
+{
+    "attack_vectors": [
+        {
+            "service": null,
+            "protocol": "UDP",
+            "fraction_of_attack": 1.0,
+            "source_port": {
+                "36011": 0.312,
+                "52081": 0.207,
+                "57540": 0.175,
+                "others": 0.306
+            },
+            "destination_ports": {
+                "20480": 1.0
+            },
+            "tcp_flags": null,
+            "nr_packets": 4965,
+            "nr_megabytes": 6,
+            "time_start": "2021-06-19T13:10:06.811543+00:00",
+            "duration_seconds": 5,
+            "source_ips": [
+                "134.209.39.226",
+                "68.183.58.149",
+                "165.22.43.160",
+                "143.198.62.57",
+                "143.198.61.74",
+                "68.183.157.242",
+                "134.209.44.67",
+                "143.198.58.242",
+                "143.198.49.24",
+                "143.198.59.82"
+            ],
+            "ethernet_type": {
+                "IPv4": 1.0
+            },
+            "frame_len": {
+                "1336": 1.0
+            },
+            "fragmentation_offset": {
+                "0": 1.0
+            },
+            "ttl": {
+                "53": 0.672,
+                "51": 0.328
+            }
+        }
+    ],
+    "target": "Anonymized",
+    "tags": [
+        "UDP flood attack",
+        "UDP"
+    ],
+    "key": "786598729135f8bd0af40161e5693afe",
+    "time_start": "2021-06-19T13:10:06.811543+00:00",
+    "time_end": "2021-06-19T13:10:12.171558+00:00",
+    "duration_seconds": 5,
+    "total_packets": 4965,
+    "total_megabytes": 6,
+    "total_ips": 10,
+    "avg_bps": 10613184,
+    "avg_pps": 993,
+    "avg_Bpp": 1336
+}
