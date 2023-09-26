@@ -522,14 +522,47 @@ if __name__ == '__main__':
                 for rule in ruleset:
                     result.append(rule)
             elif scelta == '2':
+                i = 0
+                groupname = input("Inserisci il Group Name della rete BGP: ")
+                peerip = input("Inserisci un IP di un Peer BGP: ")
+                while not ipValid(peerip):
+                    peerip = input("IP Non Conforme, Inserisci Indirizzo IP di un Peer BGP:")
                 for rule in ruleset:
                     result.append(parseRuleToJunos2(rule))
-                    ssh.append("configure" + parseRuleToJunos2(rule) + "commit")
+                    regola = str(parseRuleToJunos2(rule))
+                    regola = regola.replace('\n', ' ')
+                    pattern = r'match(.*?)\}'
+                    match_result = re.search(pattern, regola)
+                    if match_result:
+                        ssh.append("edit protocols bgp")
+                        ssh.append("set group " + groupname + " family flowspec unicast")
+                        ssh.append("edit policy-options policy-statement " + str(i))
+                        ssh.append("set term " + str(i) + " from match" + match_result.group(1)+"}")
+                        ssh.append("set term " + str(i) + " then discard")
+                        stringa1 = "set group " + groupname + " neighbor " + peerip
+                        stringa2 = " family flowspec unicast route-policy " + str(i) + " term " + str(i)
+                        ssh.append(stringa1+stringa2)
+                        ssh.append("commit")
+                    i = i + 1
             elif scelta == '3':
                 AS_NUMBER = input("Inserisci l'AS_NUMBER del tuo sistema: ")
+                peerip = input("Inserisci un IP di un Peer BGP: ")
+                while not ipValid(peerip):
+                    peerip = input("IP Non Conforme, Inserisci Indirizzo IP di un Peer BGP:")
                 for rule in ruleset:
                     result.append(parseRuleToCiscoBGPFlowspec(rule, AS_NUMBER))
-                    ssh.append("configure terminal" + parseRuleToCiscoBGPFlowspec(rule, AS_NUMBER) + "exit")
+                    regola = str(parseRuleToCiscoBGPFlowspec(rule,AS_NUMBER))
+                    parti = regola.split('\n')
+                    pattern = r'match(.*?)action'
+                    regola = regola.replace('\n',' ')
+                    match_result = re.search(pattern, regola)
+                    ssh.append("configure terminal")
+                    ssh.append(parti[1])
+                    ssh.append(parti[2])
+                    ssh.append(parti[3] + " " + match_result.group(1))
+                    ssh.append(parti[9])
+                    ssh.append("exit")
+                    ssh.append("neighbor " + peerip)
             elif scelta == '4':
                 for rule in ruleset:
                     result.append(parseRuleToCiscoACL(rule, acl_counter))
