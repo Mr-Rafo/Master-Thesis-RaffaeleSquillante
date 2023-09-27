@@ -597,7 +597,7 @@ if __name__ == '__main__':
                         # Log su STDOUT per Testing
                         print(output)
                         # Log su File TXT
-                        ssh.append(output + "\n")
+                        print(output + "\n", file=outputfile)
                 # Errore di Autenticazione - Credenziali Errate
                 except paramiko.AuthenticationException:
                     print("Autenticazione Fallita")
